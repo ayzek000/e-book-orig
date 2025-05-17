@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import modern styles */
+@import './styles/modern.css';
+
+/* Import custom shadows and improved contrast styles */
+@import './styles/custom-shadows.css';
+@import './styles/animations.css';
+
+/* Custom styles for resizable images */
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.ProseMirror img.resize-active {
+  border: 2px solid var(--color-primary-500);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.ProseMirror img.resize-handle {
+  resize: both; /* Enable native browser resizing */
+  overflow: auto;
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 100%;
+  display: inline-block;
+  margin: 5px;
+}
+
+/* Add resize icon to bottom right corner of images */
+.ProseMirror img:hover::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-primary-500);
+  border-radius: 50%;
+}

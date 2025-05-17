@@ -1,0 +1,129 @@
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import AdminLayout from './layouts/AdminLayout';
+import ReaderLayout from './layouts/ReaderLayout';
+import SplashScreen from './components/common/SplashScreen';
+import WelcomeEditor from './components/admin/WelcomeEditor';
+import ModuleManager from './components/admin/ModuleManager';
+import TableOfContentsEditor from './components/admin/TableOfContentsEditor';
+import BibliographyEditor from './components/admin/BibliographyEditor';
+import BookPreview from './components/admin/BookPreview';
+import WelcomePage from './components/reader/WelcomePage';
+import ModuleViewer from './components/reader/ModuleViewer';
+import TableOfContents from './components/reader/TableOfContents';
+import Bibliography from './components/reader/Bibliography';
+import { BookOpenCheck, Sparkles } from 'lucide-react';
+import { db } from './services/db';
+import { loadInitialData } from './services/initialData';
+import { appModeState } from './services/state';
+
+// Import styles
+import './styles/modern.css';
+import './styles/animations.css';
+
+function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [showSplash, setShowSplash] = useState(true);
+  const [appMode, setAppMode] = useState<'admin' | 'reader'>('admin');
+
+  useEffect(() => {
+    // Initialize the database and load initial data if needed
+    const initializeApp = async () => {
+      try {
+        // Check if we have any data in the database
+        const bookCount = await db.books.count();
+        
+        if (bookCount === 0) {
+          // Load initial data
+          await loadInitialData();
+        }
+        
+        // Get app mode from localStorage
+        const storedMode = localStorage.getItem('appMode');
+        if (storedMode && (storedMode === 'admin' || storedMode === 'reader')) {
+          setAppMode(storedMode);
+        }
+        
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error initializing app:', error);
+        setIsLoading(false);
+      }
+    };
+
+    initializeApp();
+    
+    // Subscribe to app mode changes
+    const unsubscribe = appModeState.subscribe((mode) => {
+      setAppMode(mode);
+      localStorage.setItem('appMode', mode);
+    });
+    
+    return () => unsubscribe();
+  }, []);
+
+  // Обработчик завершения анимации SplashScreen
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+  };
+
+  // Показываем экран загрузки безопасности
+  if (showSplash) {
+    return <SplashScreen onLoadComplete={handleSplashComplete} minDisplayTime={3000} />;
+  }
+  
+  // Показываем стандартный экран загрузки, если данные еще загружаются
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 dark:bg-neutral-900 flex items-center justify-center">
+        <div className="text-center animate-fade-in">
+          <div className="flex justify-center mb-6">
+            <div className="relative">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 flex items-center justify-center shadow-neon-multi animate-pulse">
+                <BookOpenCheck className="h-10 w-10 text-white" />
+              </div>
+              <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-white dark:bg-neutral-800 flex items-center justify-center shadow-neon-primary animate-spin">
+                <Sparkles className="h-5 w-5 text-primary-500" />
+              </div>
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold text-primary-700 dark:text-primary-400 font-display mb-2">DressLine</h2>
+          <h3 className="text-xl font-semibold text-primary-600 dark:text-primary-500 mb-4">Yuklanmoqda...</h3>
+          <p className="text-neutral-500 dark:text-neutral-400">Iltimos, kuting</p>
+          
+          <div className="mt-8 w-64 h-2 bg-neutral-200 dark:bg-neutral-700 rounded-full mx-auto overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-primary-500 to-accent-500 rounded-full animate-pulse" style={{ width: '70%' }}></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <Router>
+      <Routes>
+        {appMode === 'admin' ? (
+          <Route path="/" element={<AdminLayout />}>
+            <Route index element={<Navigate to="/admin/welcome" replace />} />
+            <Route path="admin/welcome" element={<WelcomeEditor />} />
+            <Route path="admin/modules" element={<ModuleManager />} />
+            <Route path="admin/contents" element={<TableOfContentsEditor />} />
+            <Route path="admin/bibliography" element={<BibliographyEditor />} />
+            <Route path="admin/preview" element={<BookPreview />} />
+            <Route path="*" element={<Navigate to="/admin/welcome" replace />} />
+          </Route>
+        ) : (
+          <Route path="/" element={<ReaderLayout />}>
+            <Route index element={<WelcomePage />} />
+            <Route path="contents" element={<TableOfContents />} />
+            <Route path="module/:id" element={<ModuleViewer />} />
+            <Route path="bibliography" element={<Bibliography />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Route>
+        )}
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;

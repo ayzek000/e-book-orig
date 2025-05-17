@@ -1,0 +1,34 @@
+# Папки разработки
+node_modules
+.vscode
+.idea
+
+# Временные файлы
+.DS_Store
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Отдельные проекты
+dressline-mobile-web
+dressline-mobile
+dressline-app
+dressline-webview
+mobile-app
+.bolt
+
+# Файлы сборки
+dist
+dist-ssr
+*.local
+
+# Кэш
+.cache
+.temp
+
+# Git файлы
+.git
+.github
