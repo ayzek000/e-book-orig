@@ -24,21 +24,22 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
   isLoading = false,
 }) => {
   const getCardClasses = () => {
-    const baseClasses = 'card p-6 transition-all duration-300 h-full';
+    // Базовые классы с улучшенными стилями для темной темы
+    const baseClasses = 'card p-6 transition-all duration-300 h-full rounded-xl border border-neutral-700/50';
     
     switch (variant) {
       case 'primary':
-        return `${baseClasses} card-primary shadow-glow-primary dark:bg-neutral-800 dark:border-primary-700`;
+        return `${baseClasses} bg-neutral-800 shadow-glow-primary border-primary-700/70`;
       case 'secondary':
-        return `${baseClasses} card-secondary shadow-glow-secondary dark:bg-neutral-800 dark:border-secondary-700`;
+        return `${baseClasses} bg-neutral-800 shadow-glow-secondary border-secondary-700/70`;
       case 'accent':
-        return `${baseClasses} card-accent shadow-glow-accent dark:bg-neutral-800 dark:border-accent-700`;
+        return `${baseClasses} bg-neutral-800 shadow-glow-accent border-accent-700/70`;
       case 'gradient':
-        return `${baseClasses} card-gradient`; // Градиентные карточки всегда имеют свой фон
+        return `${baseClasses} card-gradient shadow-lg`; // Градиентные карточки всегда имеют свой фон
       case 'neon':
-        return `${baseClasses} card-neon`; // Неоновые карточки всегда темные
+        return `${baseClasses} bg-neutral-900 shadow-neon-primary border-primary-700/70`; // Неоновые карточки с ярким свечением
       default:
-        return `${baseClasses} card-primary dark:bg-neutral-800 dark:border-primary-700`;
+        return `${baseClasses} bg-neutral-800 shadow-glow-primary border-primary-700/70`;
     }
   };
 
@@ -59,18 +60,20 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
           <div className="flex justify-between items-start mb-4">
             <div className={`p-3 rounded-xl ${
               variant === 'neon' 
-                ? 'bg-neutral-800 shadow-neon-primary' 
+                ? 'bg-neutral-800 shadow-neon-primary border border-primary-600/30' 
                 : variant === 'gradient' 
-                  ? 'bg-primary-700' 
-                  : 'bg-primary-100 dark:bg-primary-900/50'
+                  ? 'bg-primary-700/80 backdrop-blur-sm' 
+                  : 'bg-primary-900/70 border border-primary-700/50'
             }`}>
               {icon}
             </div>
             {count !== undefined && (
               <div className={`text-3xl font-bold ${
-                variant === 'gradient' || variant === 'neon' 
+                variant === 'gradient' 
                   ? 'text-white' 
-                  : 'text-neutral-900 dark:text-white'
+                  : variant === 'neon'
+                    ? 'text-primary-300'
+                    : 'text-white'
               }`}>
                 {count}
               </div>
@@ -78,28 +81,32 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
           </div>
           
           <h3 className={`text-xl font-semibold mb-2 ${
-            variant === 'gradient' || variant === 'neon' 
+            variant === 'gradient'
               ? 'text-white' 
-              : 'text-neutral-900 dark:text-neutral-100'
+              : variant === 'neon'
+                ? 'text-primary-200'
+                : 'text-white'
           }`}>
             {title}
           </h3>
           
           <p className={`mb-4 ${
-            variant === 'gradient' || variant === 'neon' 
+            variant === 'gradient'
               ? 'text-neutral-100' 
-              : 'text-neutral-700 dark:text-neutral-300'
+              : variant === 'neon'
+                ? 'text-neutral-300'
+                : 'text-neutral-300'
           }`}>
             {description}
           </p>
           
           {onClick && (
-            <div className={`flex items-center text-sm font-medium mt-auto ${
+            <div className={`flex items-center text-sm font-medium mt-auto px-3 py-2 rounded-lg transition-colors ${
               variant === 'gradient' 
-                ? 'text-white' 
+                ? 'text-white bg-white/10 hover:bg-white/20' 
                 : variant === 'neon'
-                  ? 'text-primary-400'
-                  : 'text-primary-700 dark:text-primary-400'
+                  ? 'text-primary-300 bg-primary-900/50 hover:bg-primary-800/50 border border-primary-700/30'
+                  : 'text-primary-300 bg-primary-900/30 hover:bg-primary-800/50'
             }`}>
               <span>View details</span>
               <ChevronRight size={16} className="ml-1" />
