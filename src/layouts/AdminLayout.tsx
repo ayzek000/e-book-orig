@@ -56,7 +56,7 @@ const AdminLayout = () => {
             
             <button 
               onClick={switchToReaderMode}
-              className="btn btn-soft text-primary-700 hidden sm:flex"
+              className="btn btn-primary shadow-glow-primary flex items-center"
             >
               <Eye className="h-4 w-4 mr-2" />
               O'quvchi rejimi
