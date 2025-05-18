@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
-import { BookOpen, Home, Book, List, BookmarkIcon, Eye, FileOutput, Menu, X, Moon, Sun, Database, FileText, Save } from 'lucide-react';
+import { BookOpen, Home, Book, List, BookmarkIcon, Eye, Menu, X, Moon, Sun, Database, FileText, Save } from 'lucide-react';
 import { appModeState } from '../services/state';
-import { exportBookToPDF } from '../services/pdfExport';
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
-  const [exportLoading, setExportLoading] = useState(false);
   
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -22,17 +20,7 @@ const AdminLayout = () => {
     appModeState.setMode('reader');
   };
   
-  const handleExportPDF = async () => {
-    try {
-      setExportLoading(true);
-      await exportBookToPDF();
-      setExportLoading(false);
-    } catch (error) {
-      console.error('PDF export failed:', error);
-      alert('PDF yaratishda xatolik yuz berdi');
-      setExportLoading(false);
-    }
-  };
+
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -74,14 +62,7 @@ const AdminLayout = () => {
               O'quvchi rejimi
             </button>
             
-            <button 
-              onClick={handleExportPDF}
-              className="btn btn-primary shadow-glow-primary"
-              disabled={exportLoading}
-            >
-              <FileOutput className="h-4 w-4 mr-2" />
-              {exportLoading ? "Yuklanmoqda..." : "PDF yuklab olish"}
-            </button>
+
           </div>
         </div>
       </header>
@@ -169,19 +150,7 @@ const AdminLayout = () => {
                   <span className="ml-3">Firebase</span>
                 </NavLink>
               </li>
-              <li>
-                <NavLink 
-                  to="/admin/pdf" 
-                  className={({ isActive }: { isActive: boolean }) => 
-                    `flex items-center p-3 rounded-xl transition-all ${isActive ? 'bg-primary-50 text-primary-700 font-medium shadow-glow-primary' : 'hover:bg-neutral-100'}`
-                  }
-                >
-                  <div className="p-2 rounded-lg bg-neutral-100">
-                    <FileText className="h-5 w-5" />
-                  </div>
-                  <span className="ml-3">PDF-файлы</span>
-                </NavLink>
-              </li>
+
               <li>
                 <NavLink 
                   to="/admin/export" 
@@ -264,17 +233,7 @@ const AdminLayout = () => {
                   <Database className="h-5 w-5" />
                 </NavLink>
               </li>
-              <li>
-                <NavLink 
-                  to="/admin/pdf" 
-                  className={({ isActive }: { isActive: boolean }) => 
-                    `p-3 rounded-xl flex items-center justify-center ${isActive ? 'bg-primary-100 text-primary-700 shadow-glow-primary' : 'hover:bg-neutral-100'}`
-                  }
-                  title="PDF-файлы"
-                >
-                  <FileText className="h-5 w-5" />
-                </NavLink>
-              </li>
+
               <li>
                 <NavLink 
                   to="/admin/export" 

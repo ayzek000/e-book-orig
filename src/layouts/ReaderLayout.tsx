@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
-import { Menu, ChevronLeft, ChevronRight, Home, Sparkles, BookMarked, Download, Settings } from 'lucide-react';
+import { Menu, ChevronLeft, ChevronRight, Home, Sparkles, BookMarked, Settings } from 'lucide-react';
 import { db } from '../services/db';
-import { exportBookToPDF } from '../services/pdfExport';
 
 // Определяем тип Module локально
 interface Module {
@@ -24,7 +23,6 @@ const ReaderLayout: React.FC = () => {
   // Используем название книги для заголовка страницы
   const [, setBookTitle] = useState<string>('DressLine');
   const [isSidebarOpen, setSidebarOpenState] = useState(true);
-  const [exportLoading, setExportLoading] = useState(false);
 
   useEffect(() => {
     const loadModules = async () => {
@@ -96,16 +94,7 @@ const ReaderLayout: React.FC = () => {
     }
   };
 
-  const handleExportPDF = async () => {
-    try {
-      setExportLoading(true);
-      await exportBookToPDF();
-    } catch (error) {
-      console.error('Error exporting PDF:', error);
-    } finally {
-      setExportLoading(false);
-    }
-  };
+
 
   const switchToAdminMode = () => {
     appModeState.setMode('admin');
@@ -265,14 +254,6 @@ const ReaderLayout: React.FC = () => {
               )}
               
               {/* Кнопка переключения темы удалена, так как теперь используется только темная тема */}
-              <button 
-                onClick={handleExportPDF}
-                className="btn btn-soft text-primary-700 hidden sm:flex"
-                disabled={exportLoading}
-              >
-                <Download size={16} className="mr-2" />
-                {exportLoading ? "Yuklanmoqda..." : "PDF yuklab olish"}
-              </button>
               <button 
                 onClick={switchToAdminMode}
                 className="btn btn-gradient px-4 py-2 text-white rounded-xl flex items-center gap-2 font-medium shadow-neon-multi hover:shadow-neon-accent transition-all duration-300"

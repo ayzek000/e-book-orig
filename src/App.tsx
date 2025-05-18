@@ -13,7 +13,7 @@ import ModuleViewer from './components/reader/ModuleViewer';
 import TableOfContents from './components/reader/TableOfContents';
 import Bibliography from './components/reader/Bibliography';
 import FirebaseAdminPage from './admin/FirebaseAdminPage';
-import PdfManager from './components/admin/PdfManager';
+
 import DataExportPage from './components/admin/DataExportPage';
 import { BookOpenCheck, Sparkles } from 'lucide-react';
 import { db } from './services/db';
@@ -179,7 +179,7 @@ function App() {
             <Route path="admin/bibliography" element={<BibliographyEditor />} />
             <Route path="admin/preview" element={<BookPreview />} />
             <Route path="admin/firebase" element={<FirebaseAdminPage />} />
-            <Route path="admin/pdf" element={<PdfManager />} />
+
             <Route path="admin/export" element={<DataExportPage />} />
             <Route path="*" element={<Navigate to="/admin/welcome" replace />} />
           </Route>
