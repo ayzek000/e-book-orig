@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { db, Module } from '../../services/db';
 import EnhancedPdfViewer from './EnhancedPdfViewer';
-import { BookOpenCheck, FileText, Clock, Sparkles, BookmarkIcon } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 const ModuleViewer = () => {
   const { id } = useParams<{ id: string }>();
@@ -78,13 +78,9 @@ const ModuleViewer = () => {
           </div>
           
           <div className="flex items-center space-x-4 relative z-10">
-            <div className="p-3 rounded-xl bg-white/20 backdrop-blur-sm shadow-neon-primary">
-              <BookOpenCheck className="h-8 w-8 text-white" />
-            </div>
             <div>
               <h1 className="text-3xl font-bold text-white font-display">{module?.title}</h1>
               <div className="flex items-center mt-2 text-white/80 text-sm">
-                <Sparkles className="h-3 w-3 mr-2" />
                 <span>Premium Content</span>
               </div>
             </div>
@@ -94,17 +90,14 @@ const ModuleViewer = () => {
         {/* Module Metadata */}
         <div className="flex flex-wrap items-center text-sm mb-8 space-x-6">
           <div className="flex items-center px-4 py-2 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 shadow-sm">
-            <Clock className="h-4 w-4 mr-2" />
             <span>~{Math.ceil((module?.content?.length || 0) / 1000)} daqiqa o'qish</span>
           </div>
           {module?.pdfAttachment && (
             <div className="flex items-center px-4 py-2 rounded-full bg-secondary-100 dark:bg-secondary-900/30 text-secondary-700 dark:text-secondary-300 shadow-sm">
-              <FileText className="h-4 w-4 mr-2" />
               <span>PDF ilova mavjud</span>
             </div>
           )}
           <div className="flex items-center px-4 py-2 rounded-full bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300 shadow-sm">
-            <BookmarkIcon className="h-4 w-4 mr-2" />
             <span>Saqlangan</span>
           </div>
         </div>

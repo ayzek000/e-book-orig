@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
-import { ChevronDown, Loader } from 'lucide-react';
+import { Loader } from 'lucide-react';
 import { useLazyModules } from '../../hooks/useLazyModules';
 
 const TableOfContents: React.FC = () => {
@@ -140,8 +140,7 @@ const TableOfContents: React.FC = () => {
                   onClick={loadMore}
                   className="flex items-center px-4 py-2 bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-full hover:bg-primary-100 dark:hover:bg-primary-800/50 transition-colors"
                 >
-                  <span className="mr-2">Ko'proq ko'rsatish</span>
-                  <ChevronDown className="h-4 w-4" />
+                  <span>Ko'proq ko'rsatish</span>
                 </button>
               </div>
             )}
