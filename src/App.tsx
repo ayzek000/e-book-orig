@@ -82,16 +82,17 @@ function App() {
               // Загружаем книги
               if (data.books && data.books.length > 0) {
                 await db.books.bulkAdd(data.books);
-                console.log(`Загружено ${data.books.length} книг`);
+              } else {
+                // Если книг нет, добавляем одну книгу по умолчанию
+                await loadInitialData();
               }
               
-              // Загружаем модули (без дубликатов)
+              // Загружаем модули
               if (uniqueModules.length > 0) {
                 await db.modules.bulkAdd(uniqueModules);
-                console.log(`Загружено ${uniqueModules.length} модулей (после удаления дубликатов)`);
               }
             } else {
-              console.log('Не удалось загрузить данные из статического файла, загружаем начальные данные');
+              console.log('Статический файл не найден, загружаем начальные данные...');
               await loadInitialData();
             }
           } catch (error) {
@@ -103,7 +104,7 @@ function App() {
           console.log('База данных уже содержит данные, пропускаем инициализацию');
         }
         
-        // Всегда используем режим чтения при перезагрузке страницы
+        // Временно отключаем режим администратора - всегда используем только режим чтения
         setAppMode('reader');
         localStorage.setItem('appMode', 'reader');
         
@@ -116,10 +117,12 @@ function App() {
 
     initializeApp();
     
-    // Subscribe to app mode changes
-    const unsubscribe = appModeState.subscribe((mode) => {
-      setAppMode(mode);
-      localStorage.setItem('appMode', mode);
+    // Временно отключаем подписку на изменения режима приложения
+    // и всегда возвращаемся в режим чтения
+    const unsubscribe = appModeState.subscribe((_) => {
+      // Всегда устанавливаем режим чтения, игнорируя запросы на переключение в режим администратора
+      setAppMode('reader');
+      localStorage.setItem('appMode', 'reader');
     });
     
     return () => unsubscribe();

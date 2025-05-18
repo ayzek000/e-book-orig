@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
-import { BookOpen, ChevronDown, Loader } from 'lucide-react';
+import { ChevronDown, Loader } from 'lucide-react';
 import { useLazyModules } from '../../hooks/useLazyModules';
 
 const TableOfContents: React.FC = () => {
@@ -92,7 +92,7 @@ const TableOfContents: React.FC = () => {
     <div className="max-w-4xl mx-auto">
       <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-md p-8 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700">
         <div className="flex items-center justify-center mb-6">
-          <BookOpen className="h-8 w-8 text-primary-600 dark:text-primary-400 mr-3" />
+          {/* Иконка удалена для улучшения читаемости текста */}
           <h1 className="text-3xl font-bold text-neutral-800 dark:text-neutral-200">Mundarija</h1>
         </div>
         

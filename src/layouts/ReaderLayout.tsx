@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
-import { Menu, ChevronLeft, ChevronRight, Home, Sparkles, Settings } from 'lucide-react';
+import { Menu, ChevronLeft, ChevronRight, Home, Sparkles } from 'lucide-react';
 import { db } from '../services/db';
 
 // Определяем тип Module локально
@@ -11,7 +11,8 @@ interface Module {
   order?: number;
   pdfAttachment?: { name: string; data: string; } | string;
 }
-import { appModeState } from '../services/state';
+// Импорт appModeState временно отключен, так как режим администратора скрыт
+// import { appModeState } from '../services/state';
 
 const ReaderLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -96,9 +97,10 @@ const ReaderLayout: React.FC = () => {
 
 
 
-  const switchToAdminMode = () => {
-    appModeState.setMode('admin');
-  };
+  // Функция переключения в режим администратора временно отключена
+  // const switchToAdminMode = () => {
+  //   appModeState.setMode('admin');
+  // };
 
   // Добавляем стили для улучшения прокрутки на мобильных устройствах
   useEffect(() => {
@@ -248,13 +250,7 @@ const ReaderLayout: React.FC = () => {
               )}
               
               {/* Кнопка переключения темы удалена, так как теперь используется только темная тема */}
-              <button 
-                onClick={switchToAdminMode}
-                className="btn btn-gradient px-4 py-2 text-white rounded-xl flex items-center gap-2 font-medium shadow-neon-multi hover:shadow-neon-accent transition-all duration-300"
-              >
-                <Settings size={16} />
-                Admin rejimi
-              </button>
+              {/* Кнопка переключения в режим администратора временно скрыта */}
             </div>
           </div>
         </header>
