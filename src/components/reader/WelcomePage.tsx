@@ -44,7 +44,7 @@ const WelcomePage: React.FC = () => {
             <BookOpenCheck className="h-10 w-10 text-white" />
           </div>
           <div>
-            <h1 className="text-4xl font-bold text-white font-display drop-shadow-md">Yangi Elektron Kitob</h1>
+            <h1 className="text-4xl font-bold text-white font-display drop-shadow-md">Dressline</h1>
             <div className="flex items-center mt-2 px-3 py-1 rounded-lg bg-black/40 backdrop-blur-sm border border-white/20 inline-block">
               <Sparkles className="h-4 w-4 mr-2 text-white" />
               <span className="text-white font-medium">Elektron kitobga xush kelibsiz!</span>
@@ -52,53 +52,49 @@ const WelcomePage: React.FC = () => {
           </div>
         </div>
         
-        <div className="flex flex-col mb-8">
-          {/* Фото слева и заголовок */}
-          <div className="flex flex-col md:flex-row gap-6 mb-6">
-            <div className="relative z-10">
-              <div className="w-full max-w-xs overflow-hidden rounded-xl border-2 border-primary-600/30 shadow-neon-primary">
-                {/* Используем изображение из третьего скриншота */}
-                <div className="w-full h-64 bg-primary-700 flex items-center justify-center">
-                  <div className="text-white text-lg font-medium">
-                    Muxidova Olima Nurilloyevna
-                  </div>
+        <div className="flex flex-col md:flex-row gap-6 mb-8">
+          {/* Левая колонка с фото и информацией */}
+          <div className="w-full md:w-64 flex flex-col">
+            <div className="relative z-10 bg-neutral-900 rounded-xl border-2 border-primary-600/30 shadow-neon-primary overflow-hidden">
+              <img 
+                src="/images/muxidova.png" 
+                alt="Muxidova Olima Nurilloyevna" 
+                className="w-full object-cover"
+              />
+              <div className="p-4 text-center">
+                <h3 className="text-xl font-bold text-white mb-3">Muxidova Olima Nurilloyevna</h3>
+                <div className="flex items-center text-primary-300 mb-2 justify-center">
+                  <GraduationCap className="h-4 w-4 mr-2" />
+                  <span className="text-sm">Pedagogika fanlari doktori (DSc)</span>
                 </div>
-              </div>
-            </div>
-            
-            <div className="flex flex-col">
-              <h2 className="text-2xl font-bold text-white mb-2">Muxidova Olima Nurilloyevna</h2>
-              <div className="flex items-center text-primary-300 mb-1">
-                <GraduationCap className="h-4 w-4 mr-2" />
-                <span className="text-sm">Pedagogika fanlari doktori (DSc)</span>
-              </div>
-              <div className="flex items-center text-primary-300 mb-4">
-                <Award className="h-4 w-4 mr-2" />
-                <span className="text-sm">Professor</span>
+                <div className="flex items-center text-primary-300 justify-center">
+                  <Award className="h-4 w-4 mr-2" />
+                  <span className="text-sm">Professor</span>
+                </div>
               </div>
             </div>
           </div>
           
-          {/* Информация */}
-          <div className="relative z-10 p-5 rounded-xl bg-black/40 backdrop-blur-sm border border-white/20 shadow-lg text-white">
-            <div className="prose prose-invert max-w-none">
-              <p className="text-white/90 leading-relaxed">
+          {/* Правая колонка с биографией */}
+          <div className="flex-1 relative z-10 p-5 rounded-xl bg-black/40 backdrop-blur-sm border border-white/20 shadow-lg text-white">
+            <div className="text-white/90 text-sm leading-normal">
+              <p className="mb-2">
                 Muxidova Olima Nurilloyevna 1974 yil 13 iyunda Buxoro shahrida tavallud topgan. 1996 yilda Buxoro Oziq-ovqat va yengil sanoat texnologiya institutining Tikuvchilik mahsulotlari texnologiyasi va konstruksiyasi mutaxassisligini tugatgan.
               </p>
               
-              <p className="text-white/90 leading-relaxed">
-                1996-1998 yilda Buxoro industrial pedagogika texnikumi tikuvchilik texnologiyasi fani o'qituvchisi, 1998-2004 yilda Buxoro pedagogika texnikumi tikuvchilik texnologiyasi fani o'qituvchisi, 2005-2010 yilda Buxoro pedagogika kolleji tikuvchilik texnologiyasi fani o'qituvchisi, 2010-2019 yilda Buxoro pedagogika kolleji "Maktabdan va sinfdan tashqari tarbiyaviy ishlar" kafedrasi mudiri, 2019-2020 yilda Buxoro davlat universiteti "Mehnat ta'limi" kafedrasi o'qituvchisi, 2020 yil sentyabrdan 2023 yilgacha "Elektronika va texnologiya" kafedrasi katta o'qituvchisi lavozimida faoliyat yuritib kelgan.  
+              <p className="mb-2">
+                1996-1998 yilda Buxoro industrial pedagogika texnikumi tikuvchilik texnologiyasi fani o'qituvchisi, 1998-2004 yilda Buxoro pedagogika texnikumi tikuvchilik texnologiyasi fani o'qituvchisi, 2005-2010 yilda Buxoro pedagogika kolleji tikuvchilik texnologiyasi fani o'qituvchisi, 2010-2019 yilda Buxoro pedagogika kolleji "Maktabdan va sinfdan tashqari tarbiyaviy ishlar" kafedrasi mudiri, 2019-2020 yilda Buxoro davlat universiteti "Mehnat ta'limi" kafedrasi o'qituvchisi, 2020 yil sentyabrdan 2023 yilgacha "Elektronika va texnologiya" kafedrasi katta o'qituvchisi lavozimida faoliyat yuritib kelgan.
               </p>
               
-              <p className="text-white/90 leading-relaxed">
+              <p className="mb-2">
                 2023-2025 yilda Qori Niyoziy nomidagi Tarbiya pedagogikasi milliy institutining tayanch doktoranti. O.N.Muxidova 2023 yildan pedagogika fanlari doktori (DSc), professor Sh.Q.Mardonov rahbarligida "Bo'lajak texnologiya o'qituvchilarining transversal kompetensiyalarini rivojlantirishda elektron dasturlashdan foydalanish metodikasini takomillashtirish" mavzusida o'zining ilmiy tadqiqot ishlarini olib bormoqda.
               </p>
               
-              <p className="text-white/90 leading-relaxed">
+              <p className="mb-2">
                 U o'z ilmiy faoliyati davrida 50 ga yaqin maqola va tezislar chop ettirgan. Jumladan: Scopus xalqaro ma'lumotlar bazasiga kiritilgan jurnallarda 1 ta Web off science 20 xalqaro ma'lumotlar bazasiga kiritilgan jurnallarda 2 ta, OAK ro'yxatidagi respublika va xalqaro jurnallarda 20 dan ortiq, shuningdek, respublika va xalqaro konferensiya materiallari to'plamlarida 20 dan ortiq ilmiy tadqiqot natijalarini e'lon qilgan.
               </p>
               
-              <p className="text-white/90 leading-relaxed">
+              <p>
                 Undan tashqari yakka va hammualliflikda o'quv va uslubiy qo'llanmalari nashr etilgan.
               </p>
             </div>
