@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
-import { BookOpen, Home, Book, List, BookmarkIcon, Eye, FileOutput, Menu, X, Moon, Sun } from 'lucide-react';
+import { BookOpen, Home, Book, List, BookmarkIcon, Eye, FileOutput, Menu, X, Moon, Sun, Database, FileText, Save } from 'lucide-react';
 import { appModeState } from '../services/state';
 import { exportBookToPDF } from '../services/pdfExport';
 
@@ -156,6 +156,45 @@ const AdminLayout = () => {
                   <span className="ml-3">Ko'rib chiqish</span>
                 </NavLink>
               </li>
+              <li>
+                <NavLink 
+                  to="/admin/firebase" 
+                  className={({ isActive }: { isActive: boolean }) => 
+                    `flex items-center p-3 rounded-xl transition-all ${isActive ? 'bg-primary-50 text-primary-700 font-medium shadow-glow-primary' : 'hover:bg-neutral-100'}`
+                  }
+                >
+                  <div className="p-2 rounded-lg bg-neutral-100">
+                    <Database className="h-5 w-5" />
+                  </div>
+                  <span className="ml-3">Firebase</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink 
+                  to="/admin/pdf" 
+                  className={({ isActive }: { isActive: boolean }) => 
+                    `flex items-center p-3 rounded-xl transition-all ${isActive ? 'bg-primary-50 text-primary-700 font-medium shadow-glow-primary' : 'hover:bg-neutral-100'}`
+                  }
+                >
+                  <div className="p-2 rounded-lg bg-neutral-100">
+                    <FileText className="h-5 w-5" />
+                  </div>
+                  <span className="ml-3">PDF-файлы</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink 
+                  to="/admin/export" 
+                  className={({ isActive }: { isActive: boolean }) => 
+                    `flex items-center p-3 rounded-xl transition-all ${isActive ? 'bg-primary-50 text-primary-700 font-medium shadow-glow-primary' : 'hover:bg-neutral-100'}`
+                  }
+                >
+                  <div className="p-2 rounded-lg bg-neutral-100">
+                    <Save className="h-5 w-5" />
+                  </div>
+                  <span className="ml-3">Экспорт данных</span>
+                </NavLink>
+              </li>
             </ul>
           ) : (
             <ul className="space-y-4 py-4 flex flex-col items-center">
@@ -212,6 +251,39 @@ const AdminLayout = () => {
                   title="Ko'rib chiqish"
                 >
                   <Eye className="h-5 w-5" />
+                </NavLink>
+              </li>
+              <li>
+                <NavLink 
+                  to="/admin/firebase" 
+                  className={({ isActive }: { isActive: boolean }) => 
+                    `p-3 rounded-xl flex items-center justify-center ${isActive ? 'bg-primary-100 text-primary-700 shadow-glow-primary' : 'hover:bg-neutral-100'}`
+                  }
+                  title="Firebase"
+                >
+                  <Database className="h-5 w-5" />
+                </NavLink>
+              </li>
+              <li>
+                <NavLink 
+                  to="/admin/pdf" 
+                  className={({ isActive }: { isActive: boolean }) => 
+                    `p-3 rounded-xl flex items-center justify-center ${isActive ? 'bg-primary-100 text-primary-700 shadow-glow-primary' : 'hover:bg-neutral-100'}`
+                  }
+                  title="PDF-файлы"
+                >
+                  <FileText className="h-5 w-5" />
+                </NavLink>
+              </li>
+              <li>
+                <NavLink 
+                  to="/admin/export" 
+                  className={({ isActive }: { isActive: boolean }) => 
+                    `p-3 rounded-xl flex items-center justify-center ${isActive ? 'bg-primary-100 text-primary-700 shadow-glow-primary' : 'hover:bg-neutral-100'}`
+                  }
+                  title="Экспорт данных"
+                >
+                  <Save className="h-5 w-5" />
                 </NavLink>
               </li>
             </ul>

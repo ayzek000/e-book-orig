@@ -165,28 +165,31 @@ const ReaderLayout: React.FC = () => {
                 <div className="flex-1 border-b border-dashed ml-2 mb-1 opacity-30"></div>
               </div>
             </li>
-            {modules.map((module) => (
-              <li key={module.id}>
-                <Link
-                  to={`/module/${module.id}`}
-                  className={`flex items-center px-4 py-3 rounded-xl transition-all duration-200 ${location.pathname === `/module/${module.id}` 
-                    ? darkMode 
-                      ? 'bg-primary-900/50 text-white shadow-neon-primary' 
-                      : 'bg-primary-100 text-primary-900 shadow-glow-primary' 
-                    : darkMode 
-                      ? 'text-neutral-300 hover:bg-neutral-800' 
-                      : 'text-neutral-700 hover:bg-neutral-100'}`}
-                >
-                  <BookMarked
-                    className={`mr-3 ${location.pathname === `/module/${module.id}` 
-                      ? darkMode ? 'text-primary-400' : 'text-primary-600' 
-                      : darkMode ? 'text-neutral-400' : 'text-neutral-500'}`}
-                    size={20}
-                  />
-                  <span className="font-medium">{module.title}</span>
-                </Link>
-              </li>
-            ))}
+            {/* Отображаем все модули без фильтрации, так как в базе данных теперь только нужные модули */}
+            {modules
+              .map((module) => (
+                <li key={module.id}>
+                  <Link
+                    to={`/module/${module.id}`}
+                    className={`flex items-center px-4 py-3 rounded-xl transition-all duration-200 ${location.pathname === `/module/${module.id}` 
+                      ? darkMode 
+                        ? 'bg-primary-900/50 text-white shadow-neon-primary' 
+                        : 'bg-primary-100 text-primary-900 shadow-glow-primary' 
+                      : darkMode 
+                        ? 'text-neutral-300 hover:bg-neutral-800' 
+                        : 'text-neutral-700 hover:bg-neutral-100'}`}
+                  >
+                    <BookMarked
+                      className={`mr-3 ${location.pathname === `/module/${module.id}` 
+                        ? darkMode ? 'text-primary-400' : 'text-primary-600' 
+                        : darkMode ? 'text-neutral-400' : 'text-neutral-500'}`}
+                      size={20}
+                    />
+                    <span className="font-medium">{module.title}</span>
+                  </Link>
+                </li>
+              ))}
+            
           </ul>
         </nav>
       </div>

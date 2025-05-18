@@ -42,10 +42,12 @@ export const useLazyModules = (options: UseLazyModulesOptions = {}) => {
         
         if (firstBook) {
           // Get modules sorted by order
-          const modulesList = await db.modules
+          let modulesList = await db.modules
             .where('bookId')
             .equals(firstBook.id || 1)
             .sortBy('order');
+          
+          // Не фильтруем модули, так как в базе данных теперь только нужные модули
           
           // Добавляем небольшую задержку для демонстрации загрузки
           await new Promise(resolve => setTimeout(resolve, 500));

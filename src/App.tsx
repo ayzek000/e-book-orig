@@ -12,6 +12,9 @@ import WelcomePage from './components/reader/WelcomePage';
 import ModuleViewer from './components/reader/ModuleViewer';
 import TableOfContents from './components/reader/TableOfContents';
 import Bibliography from './components/reader/Bibliography';
+import FirebaseAdminPage from './admin/FirebaseAdminPage';
+import PdfManager from './components/admin/PdfManager';
+import DataExportPage from './components/admin/DataExportPage';
 import { BookOpenCheck, Sparkles } from 'lucide-react';
 import { db } from './services/db';
 import { loadInitialData } from './services/initialData';
@@ -21,27 +24,35 @@ import { appModeState } from './services/state';
 import './styles/modern.css';
 import './styles/animations.css';
 
+// Константа для включения/отключения админ-панели
+// Установите значение false, чтобы полностью отключить админ-панель
+const SHOW_ADMIN_PANEL = true;
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [showSplash, setShowSplash] = useState(true);
-  const [appMode, setAppMode] = useState<'admin' | 'reader'>('admin');
+  const [appMode, setAppMode] = useState<'admin' | 'reader'>(SHOW_ADMIN_PANEL ? 'admin' : 'reader');
 
   useEffect(() => {
     // Initialize the database and load initial data if needed
     const initializeApp = async () => {
       try {
-        // Check if we have any data in the database
-        const bookCount = await db.books.count();
+        // Принудительно очищаем базу данных при каждом запуске
+        console.log('Clearing database...');
+        await db.books.clear();
+        await db.modules.clear();
+        console.log('Database cleared');
         
-        if (bookCount === 0) {
-          // Load initial data
-          await loadInitialData();
-        }
+        // Загружаем начальные данные
+        console.log('Loading initial data...');
+        await loadInitialData();
+        console.log('Initial data loaded');
         
-        // Get app mode from localStorage
+        // Загружаем режим приложения из localStorage
         const storedMode = localStorage.getItem('appMode');
         if (storedMode && (storedMode === 'admin' || storedMode === 'reader')) {
-          setAppMode(storedMode);
+          // Если админ-панель отключена, то всегда используем режим чтения
+          setAppMode(SHOW_ADMIN_PANEL ? storedMode : 'reader');
         }
         
         setIsLoading(false);
@@ -110,6 +121,9 @@ function App() {
             <Route path="admin/contents" element={<TableOfContentsEditor />} />
             <Route path="admin/bibliography" element={<BibliographyEditor />} />
             <Route path="admin/preview" element={<BookPreview />} />
+            <Route path="admin/firebase" element={<FirebaseAdminPage />} />
+            <Route path="admin/pdf" element={<PdfManager />} />
+            <Route path="admin/export" element={<DataExportPage />} />
             <Route path="*" element={<Navigate to="/admin/welcome" replace />} />
           </Route>
         ) : (
