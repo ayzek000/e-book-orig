@@ -1,108 +1,130 @@
 import { db } from './db';
 
+/**
+ * Загрузить начальные данные в базу данных
+ */
 export const loadInitialData = async () => {
+  console.log('Initializing database with default data...');
+  
   try {
-    // Полностью очищаем базу данных и создаем только нужные модули
-    console.log('Initializing database with clean data...');
+    // Создаем книгу
+    const bookId = await db.books.add({
+      title: 'DressLine',
+      welcomeContent: '<h1>DressLine</h1><p>Modern E-Book</p>',
+      bibliography: '<h2>Bibliography</h2><p>List of references...</p>'
+    });
     
-    // Получаем количество книг и модулей
-    const bookCount = await db.books.count();
-    const moduleCount = await db.modules.count();
+    console.log(`Created book with ID: ${bookId}`);
     
-    // Если база данных пуста, создаем новую книгу
-    if (bookCount === 0) {
-      // Создаем книгу
-      await db.books.add({
-        id: 1, // Явно указываем ID
-        title: 'Yangi Elektron Kitob',
-        welcomeContent: `
-          <h1>Elektron kitobga xush kelibsiz!</h1>
-          <p>Bu yerda siz kitob haqida umumiy ma'lumot yozishingiz mumkin.</p>
-          <p>O'zingizning kitobingizni yaratish uchun chap tomondagi menyu orqali harakatlaningiz.</p>
-        `,
-        bibliography: `
-          <h2>Adabiyotlar ro'yxati</h2>
-          <p>Bu yerda siz foydalangan adabiyotlar ro'yxatini kiritishingiz mumkin.</p>
-          <ol>
-            <li>Muallif A. Kitob nomi. - Nashriyot, yil. - bet.</li>
-            <li>Muallif B. Kitob nomi. - Nashriyot, yil. - bet.</li>
-          </ol>
-        `
-      });
-      
-      console.log('Created new book');
-    }
-    
-    // Удаляем все существующие модули
-    if (moduleCount > 0) {
-      await db.modules.clear();
-      console.log('Cleared all modules');
-    }
-    
-    // Создаем только модуль Kirish
+    // Создаем модуль Kirish
     await db.modules.add({
-      id: 1, // Явно указываем ID
-      bookId: 1,
+      bookId,
       title: 'Kirish',
-      content: `
-        <h2>Kirish</h2>
-        <p>Bu yerda siz kitobning kirish qismini yozishingiz mumkin.</p>
-        <p>Matnni tahrirlash uchun matn maydoniga bosing va tahrirlash tugmalaridan foydalaning.</p>
-      `,
+      content: '<h1>Kirish</h1><p>Bu yerda siz kitobning kirish qismini yozishingiz mumkin.</p><p>Matnni tahrirlash uchun matn maydoniga bosing va tahrirlash tugmalaridan foydalaning.</p>',
       order: 1
     });
     
-    console.log('Created Kirish module');
+    // Создаем модуль 1-Mavzu
+    await db.modules.add({
+      bookId,
+      title: '1-Mavzu: Kirish. Kiyimlarni konstruksiyalashga doir dastlabki ma\'lumotlar.',
+      content: '<h1>1-Mavzu: Kirish</h1><p>Kiyimlarni konstruksiyalashga doir dastlabki ma\'lumotlar haqida ma\'lumot.</p>',
+      order: 2
+    });
     
-    // Создаем дополнительные модули для примера
-    await db.modules.bulkAdd([
-      {
-        id: 2,
-        bookId: 1,
-        title: '1-Mavzu: Kirish. Kiyimlarni konstruksiyalashga doir dastlabki ma\'lumotar.',
-        content: `
-          <h2>1-Mavzu: Kirish. Kiyimlarni konstruksiyalashga doir dastlabki ma'lumotar.</h2>
-          <p>Bu yerda siz mavzu haqida ma'lumot yozishingiz mumkin.</p>
-        `,
-        order: 2
-      },
-      {
-        id: 3,
-        bookId: 1,
-        title: '2-Mavzu: Gavdadan o\'lchov olish qoidalari. Kiyimni loyihalash usullari',
-        content: `
-          <h2>2-Mavzu: Gavdadan o'lchov olish qoidalari. Kiyimni loyihalash usullari</h2>
-          <p>Bu yerda siz mavzu haqida ma'lumot yozishingiz mumkin.</p>
-        `,
-        order: 3
-      },
-      {
-        id: 4,
-        bookId: 1,
-        title: '3-Mavzu: Oshxonada kiyiladigan kiyimlarni konstruksiyalash haqida umumiy ma\'lumot',
-        content: `
-          <h2>3-Mavzu: Oshxonada kiyiladigan kiyimlarni konstruksiyalash haqida umumiy ma'lumot</h2>
-          <p>Bu yerda siz mavzu haqida ma'lumot yozishingiz mumkin.</p>
-        `,
-        order: 4
-      },
-      {
-        id: 5,
-        bookId: 1,
-        title: '4-Mavzu: Chaqaloqlar kiyimlari turlari haqida umumiy ma\'lumot',
-        content: `
-          <h2>4-Mavzu: Chaqaloqlar kiyimlari turlari haqida umumiy ma'lumot</h2>
-          <p>Bu yerda siz mavzu haqida ma'lumot yozishingiz mumkin.</p>
-        `,
-        order: 5
-      }
-    ]);
+    // Создаем модуль 2-Mavzu
+    await db.modules.add({
+      bookId,
+      title: '2-Mavzu: Gavdadan o\'lchov olish qoidalari. Kiyimni loyihalash usullari',
+      content: '<h1>2-Mavzu: Gavdadan o\'lchov olish qoidalari</h1><p>Kiyimni loyihalash usullari haqida ma\'lumot.</p>',
+      order: 3
+    });
     
-    console.log('Created additional modules');
-    console.log('Database initialization complete');
+    // Создаем модуль 3-Mavzu
+    await db.modules.add({
+      bookId,
+      title: '3-Mavzu: Oshxonada kiyiladigan kiyimlarni konstruksiyalash haqida umumiy ma\'lumot',
+      content: '<h1>3-Mavzu: Oshxonada kiyiladigan kiyimlar</h1><p>Oshxonada kiyiladigan kiyimlarni konstruksiyalash haqida umumiy ma\'lumot.</p>',
+      order: 4
+    });
     
+    // Создаем модуль 4-Mavzu
+    await db.modules.add({
+      bookId,
+      title: '4-Mavzu: Chaqaloqlar kiyimlari turlari haqida umumiy ma\'lumot',
+      content: '<h1>4-Mavzu: Chaqaloqlar kiyimlari</h1><p>Chaqaloqlar kiyimlari turlari haqida umumiy ma\'lumot.</p>',
+      order: 5
+    });
+    
+    console.log('Initial data loaded successfully');
+    return true;
   } catch (error) {
     console.error('Error loading initial data:', error);
-    throw error;
+    return false;
   }
+};
+
+/**
+ * Создать JSON для статического файла
+ * Эта функция возвращает JSON для сохранения в статический файл
+ */
+export const createStaticDataJson = () => {
+  // Данные книги
+  const books = [
+    {
+      id: 1,
+      title: 'DressLine',
+      welcomeContent: '<h1>DressLine</h1><p>Modern E-Book</p>',
+      bibliography: '<h2>Bibliography</h2><p>List of references...</p>'
+    }
+  ];
+  
+  // Данные модулей
+  const modules = [
+    {
+      id: 1,
+      bookId: 1,
+      title: 'Kirish',
+      content: '<h1>Kirish</h1><p>Bu yerda siz kitobning kirish qismini yozishingiz mumkin.</p><p>Matnni tahrirlash uchun matn maydoniga bosing va tahrirlash tugmalaridan foydalaning.</p>',
+      order: 1
+    },
+    {
+      id: 2,
+      bookId: 1,
+      title: '1-Mavzu: Kirish. Kiyimlarni konstruksiyalashga doir dastlabki ma\'lumotlar.',
+      content: '<h1>1-Mavzu: Kirish</h1><p>Kiyimlarni konstruksiyalashga doir dastlabki ma\'lumotlar haqida ma\'lumot.</p>',
+      order: 2
+    },
+    {
+      id: 3,
+      bookId: 1,
+      title: '2-Mavzu: Gavdadan o\'lchov olish qoidalari. Kiyimni loyihalash usullari',
+      content: '<h1>2-Mavzu: Gavdadan o\'lchov olish qoidalari</h1><p>Kiyimni loyihalash usullari haqida ma\'lumot.</p>',
+      order: 3
+    },
+    {
+      id: 4,
+      bookId: 1,
+      title: '3-Mavzu: Oshxonada kiyiladigan kiyimlarni konstruksiyalash haqida umumiy ma\'lumot',
+      content: '<h1>3-Mavzu: Oshxonada kiyiladigan kiyimlar</h1><p>Oshxonada kiyiladigan kiyimlarni konstruksiyalash haqida umumiy ma\'lumot.</p>',
+      order: 4
+    },
+    {
+      id: 5,
+      bookId: 1,
+      title: '4-Mavzu: Chaqaloqlar kiyimlari turlari haqida umumiy ma\'lumot',
+      content: '<h1>4-Mavzu: Chaqaloqlar kiyimlari</h1><p>Chaqaloqlar kiyimlari turlari haqida umumiy ma\'lumot.</p>',
+      order: 5
+    }
+  ];
+  
+  // Создаем объект с данными
+  const data = {
+    books,
+    modules,
+    exportDate: new Date().toISOString()
+  };
+  
+  // Возвращаем JSON-строку
+  return JSON.stringify(data, null, 2);
 };

@@ -37,16 +37,51 @@ function App() {
     // Initialize the database and load initial data if needed
     const initializeApp = async () => {
       try {
-        // Принудительно очищаем базу данных при каждом запуске
-        console.log('Clearing database...');
-        await db.books.clear();
-        await db.modules.clear();
-        console.log('Database cleared');
+        // Проверяем, есть ли данные в базе данных
+        const bookCount = await db.books.count();
+        const moduleCount = await db.modules.count();
         
-        // Загружаем начальные данные
-        console.log('Loading initial data...');
-        await loadInitialData();
-        console.log('Initial data loaded');
+        console.log(`Найдено книг: ${bookCount}, модулей: ${moduleCount}`);
+        
+        // Если данных нет, пробуем загрузить их из статического файла
+        if (bookCount === 0 || moduleCount === 0) {
+          console.log('База данных пуста, пытаемся загрузить данные из статического файла...');
+          
+          try {
+            // Пытаемся загрузить данные из статического файла
+            const response = await fetch('/data/static-data.json');
+            
+            if (response.ok) {
+              const data = await response.json();
+              console.log('Данные успешно загружены из статического файла', data);
+              
+              // Очищаем базу данных
+              await db.books.clear();
+              await db.modules.clear();
+              
+              // Загружаем книги
+              if (data.books && data.books.length > 0) {
+                await db.books.bulkAdd(data.books);
+                console.log(`Загружено ${data.books.length} книг`);
+              }
+              
+              // Загружаем модули
+              if (data.modules && data.modules.length > 0) {
+                await db.modules.bulkAdd(data.modules);
+                console.log(`Загружено ${data.modules.length} модулей`);
+              }
+            } else {
+              console.log('Не удалось загрузить данные из статического файла, загружаем начальные данные');
+              await loadInitialData();
+            }
+          } catch (error) {
+            console.error('Ошибка при загрузке данных из статического файла:', error);
+            console.log('Загружаем начальные данные...');
+            await loadInitialData();
+          }
+        } else {
+          console.log('База данных уже содержит данные, пропускаем инициализацию');
+        }
         
         // Загружаем режим приложения из localStorage
         const storedMode = localStorage.getItem('appMode');

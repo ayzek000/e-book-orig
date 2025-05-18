@@ -1,5 +1,4 @@
 import { Book, Module, db } from './db';
-import { loadInitialData } from './initialData';
 
 /**
  * Сервис для экспорта данных из базы данных в статические JSON-файлы
