@@ -26,7 +26,7 @@ import './styles/animations.css';
 
 // Константа для включения/отключения админ-панели
 // Установите значение false, чтобы полностью отключить админ-панель
-const SHOW_ADMIN_PANEL = true;
+const SHOW_ADMIN_PANEL = true; // Панель админа доступна, но не открывается по умолчанию
 
 // Функция для удаления дубликатов модулей по названию
 function removeDuplicateModules(modules: any[]): any[] {
@@ -50,7 +50,7 @@ function removeDuplicateModules(modules: any[]): any[] {
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [showSplash, setShowSplash] = useState(true);
-  const [appMode, setAppMode] = useState<'admin' | 'reader'>(SHOW_ADMIN_PANEL ? 'admin' : 'reader');
+  const [appMode, setAppMode] = useState<'admin' | 'reader'>('reader'); // По умолчанию открываем в режиме чтения
 
   useEffect(() => {
     // Initialize the database and load initial data if needed

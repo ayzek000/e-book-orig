@@ -53,4 +53,4 @@ class AppModeState {
   }
 }
 
-export const appModeState = new AppModeState('admin');
+export const appModeState = new AppModeState('reader'); // Устанавливаем режим чтения по умолчанию
