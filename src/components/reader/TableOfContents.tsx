@@ -115,6 +115,10 @@ const TableOfContents: React.FC = () => {
                 >
                   <NavLink 
                     to={`/module/${module.id}`}
+                    onClick={() => {
+                      // Автоматическая прокрутка страницы вверх при клике на модуль
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
                     className={({ isActive }) => 
                       `block px-4 py-3 rounded-md transition shadow-sm ${isActive 
                         ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 font-semibold shadow-glow-primary' 
