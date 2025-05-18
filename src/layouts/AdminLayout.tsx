@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
-import { BookOpen, Home, Book, List, BookmarkIcon, Eye, Menu, X, Moon, Sun, Database, Save } from 'lucide-react';
+import { Home, Book, List, BookmarkIcon, Eye, Menu, X, Moon, Sun, Database, Save } from 'lucide-react';
 import { appModeState } from '../services/state';
 
 const AdminLayout = () => {
@@ -38,7 +38,9 @@ const AdminLayout = () => {
             
             <div className="flex items-center space-x-3">
               <div className="bg-white/20 p-2 rounded-lg">
-                <BookOpen className="h-6 w-6 text-white" />
+                <svg width="24" height="24" viewBox="0 0 512 512" fill="white" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M400 128c0-44.18-85.96-80-192-80C101.96 48 16 83.82 16 128v256c0 44.18 85.96 80 192 80 106.04 0 192-35.82 192-80V128zm-192 0c-106.04 0-192-35.82-192-80s85.96-80 192-80 192 35.82 192 80-85.96 80-192 80zm0 32c106.04 0 192-35.82 192-80v144c0 44.18-85.96 80-192 80-106.04 0-192-35.82-192-80V80c0 44.18 85.96 80 192 80zm157.65 135.35l-25.37-25.37c-6.25-6.25-16.38-6.25-22.63 0l-58.87 58.87-25.37-25.37c-6.25-6.25-16.38-6.25-22.63 0l-25.37 25.37c-6.25 6.25-6.25 16.38 0 22.63l76.37 76.37c6.25 6.25 16.38 6.25 22.63 0l109.88-109.88c6.24-6.24 6.24-16.37-.01-22.62z"/>
+                </svg>
               </div>
               <h1 className="text-xl font-bold text-white">E-Kitob <span className="font-light">| Admin</span></h1>
             </div>

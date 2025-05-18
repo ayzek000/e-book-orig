@@ -141,9 +141,8 @@ const ReaderLayout: React.FC = () => {
           <div className="flex items-center">
             <Link to="/" className={`flex items-center p-4 text-white`}>
               <div className="mr-2 bg-white/10 p-2 rounded-lg shadow-neon-primary">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="24" height="24" rx="4" fill="#8B5CF6" fillOpacity="0.2" />
-                  <path d="M7 18V15M7 15V7C7 5.89543 7.89543 5 9 5H15C16.1046 5 17 5.89543 17 7V15M7 15H17M17 15V18M9 9H15M9 12H13" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" />
+                <svg width="20" height="20" viewBox="0 0 512 512" fill="white" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M400 128c0-44.18-85.96-80-192-80C101.96 48 16 83.82 16 128v256c0 44.18 85.96 80 192 80 106.04 0 192-35.82 192-80V128zm-192 0c-106.04 0-192-35.82-192-80s85.96-80 192-80 192 35.82 192 80-85.96 80-192 80zm0 32c106.04 0 192-35.82 192-80v144c0 44.18-85.96 80-192 80-106.04 0-192-35.82-192-80V80c0 44.18 85.96 80 192 80zm157.65 135.35l-25.37-25.37c-6.25-6.25-16.38-6.25-22.63 0l-58.87 58.87-25.37-25.37c-6.25-6.25-16.38-6.25-22.63 0l-25.37 25.37c-6.25 6.25-6.25 16.38 0 22.63l76.37 76.37c6.25 6.25 16.38 6.25 22.63 0l109.88-109.88c6.24-6.24 6.24-16.37-.01-22.62z"/>
                 </svg>
               </div>
               <div>
