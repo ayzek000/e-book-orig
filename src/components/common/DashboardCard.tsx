@@ -1,11 +1,11 @@
 import React from 'react';
-import { BookOpen, ChevronRight, Sparkles } from 'lucide-react';
+import { ChevronRight, Sparkles } from 'lucide-react';
 
 interface DashboardCardProps {
   title: string;
   description: string;
   count?: number;
-  icon?: React.ReactNode;
+  icon?: React.ReactNode; // Теперь полностью опциональный, не используется
   variant?: 'primary' | 'secondary' | 'accent' | 'gradient' | 'neon';
   onClick?: () => void;
   isLoading?: boolean;
@@ -18,7 +18,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
   title,
   description,
   count,
-  icon = <BookOpen size={24} />,
+  icon, // Больше не используем иконку по умолчанию
   variant = 'primary',
   onClick,
   isLoading = false,
@@ -58,15 +58,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
       ) : (
         <>
           <div className="flex justify-between items-start mb-4">
-            <div className={`p-3 rounded-xl ${
-              variant === 'neon' 
-                ? 'bg-neutral-800 shadow-neon-primary border border-primary-600/30' 
-                : variant === 'gradient' 
-                  ? 'bg-primary-700/80 backdrop-blur-sm' 
-                  : 'bg-primary-900/70 border border-primary-700/50'
-            }`}>
-              {icon}
-            </div>
+            {/* Убрали иконку для лучшего отображения текста */}
             {count !== undefined && (
               <div className={`text-3xl font-bold ${
                 variant === 'gradient' 
