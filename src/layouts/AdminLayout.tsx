@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
-import { BookOpen, Home, Book, List, BookmarkIcon, Eye, Menu, X, Moon, Sun, Database, FileText, Save } from 'lucide-react';
+import { BookOpen, Home, Book, List, BookmarkIcon, Eye, Menu, X, Moon, Sun, Database, Save } from 'lucide-react';
 import { appModeState } from '../services/state';
 
 const AdminLayout = () => {
@@ -56,13 +56,11 @@ const AdminLayout = () => {
             
             <button 
               onClick={switchToReaderMode}
-              className="btn btn-primary shadow-glow-primary flex items-center"
+              className="btn btn-gradient px-4 py-2 text-white rounded-xl flex items-center gap-2 font-medium shadow-neon-multi hover:shadow-neon-accent transition-all duration-300"
             >
-              <Eye className="h-4 w-4 mr-2" />
+              <Eye className="h-5 w-5" />
               O'quvchi rejimi
             </button>
-            
-
           </div>
         </div>
       </header>

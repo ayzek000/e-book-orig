@@ -24,9 +24,7 @@ import { appModeState } from './services/state';
 import './styles/modern.css';
 import './styles/animations.css';
 
-// Константа для включения/отключения админ-панели
-// Установите значение false, чтобы полностью отключить админ-панель
-const SHOW_ADMIN_PANEL = true; // Панель админа доступна, но не открывается по умолчанию
+// Админ-панель всегда доступна, но не открывается по умолчанию
 
 // Функция для удаления дубликатов модулей по названию
 function removeDuplicateModules(modules: any[]): any[] {
@@ -105,12 +103,9 @@ function App() {
           console.log('База данных уже содержит данные, пропускаем инициализацию');
         }
         
-        // Загружаем режим приложения из localStorage
-        const storedMode = localStorage.getItem('appMode');
-        if (storedMode && (storedMode === 'admin' || storedMode === 'reader')) {
-          // Если админ-панель отключена, то всегда используем режим чтения
-          setAppMode(SHOW_ADMIN_PANEL ? storedMode : 'reader');
-        }
+        // Всегда используем режим чтения при перезагрузке страницы
+        setAppMode('reader');
+        localStorage.setItem('appMode', 'reader');
         
         setIsLoading(false);
       } catch (error) {
