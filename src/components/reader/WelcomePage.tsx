@@ -65,11 +65,11 @@ const WelcomePage: React.FC = () => {
                 <h3 className="text-xl font-bold text-white mb-3">Muxidova Olima Nurilloyevna</h3>
                 <div className="flex items-center text-primary-300 mb-2 justify-center">
                   <GraduationCap className="h-4 w-4 mr-2" />
-                  <span className="text-sm">Pedagogika fanlari doktori (DSc)</span>
+                  <span className="text-sm"></span>
                 </div>
                 <div className="flex items-center text-primary-300 justify-center">
                   <Award className="h-4 w-4 mr-2" />
-                  <span className="text-sm">Professor</span>
+                  <span className="text-sm"></span>
                 </div>
               </div>
             </div>
