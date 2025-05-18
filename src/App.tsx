@@ -28,6 +28,25 @@ import './styles/animations.css';
 // Установите значение false, чтобы полностью отключить админ-панель
 const SHOW_ADMIN_PANEL = true;
 
+// Функция для удаления дубликатов модулей по названию
+function removeDuplicateModules(modules: any[]): any[] {
+  const uniqueTitles = new Set<string>();
+  const uniqueModules: any[] = [];
+  
+  modules.forEach(module => {
+    // Если такого названия еще нет, добавляем модуль
+    if (!uniqueTitles.has(module.title)) {
+      uniqueTitles.add(module.title);
+      uniqueModules.push(module);
+    } else {
+      console.log(`Обнаружен дубликат модуля: ${module.title}`);
+    }
+  });
+  
+  console.log(`Удалено ${modules.length - uniqueModules.length} дубликатов модулей`);
+  return uniqueModules;
+}
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [showSplash, setShowSplash] = useState(true);
@@ -59,16 +78,19 @@ function App() {
               await db.books.clear();
               await db.modules.clear();
               
+              // Проверяем данные на наличие дубликатов
+              const uniqueModules = data.modules ? removeDuplicateModules(data.modules) : [];
+              
               // Загружаем книги
               if (data.books && data.books.length > 0) {
                 await db.books.bulkAdd(data.books);
                 console.log(`Загружено ${data.books.length} книг`);
               }
               
-              // Загружаем модули
-              if (data.modules && data.modules.length > 0) {
-                await db.modules.bulkAdd(data.modules);
-                console.log(`Загружено ${data.modules.length} модулей`);
+              // Загружаем модули (без дубликатов)
+              if (uniqueModules.length > 0) {
+                await db.modules.bulkAdd(uniqueModules);
+                console.log(`Загружено ${uniqueModules.length} модулей (после удаления дубликатов)`);
               }
             } else {
               console.log('Не удалось загрузить данные из статического файла, загружаем начальные данные');

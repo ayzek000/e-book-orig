@@ -115,11 +115,42 @@ const ReaderLayout: React.FC = () => {
     appModeState.setMode('admin');
   };
 
+  // Добавляем стили для улучшения прокрутки на мобильных устройствах
+  useEffect(() => {
+    // Добавляем стили для мобильных устройств
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @media (max-width: 768px) {
+        .sidebar-nav::-webkit-scrollbar {
+          width: 4px;
+        }
+        .sidebar-nav::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.05);
+        }
+        .sidebar-nav::-webkit-scrollbar-thumb {
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: 4px;
+        }
+        .dark .sidebar-nav::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.05);
+        }
+        .dark .sidebar-nav::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.2);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
   return (
     <div className={`flex min-h-screen ${darkMode ? 'bg-neutral-900 text-neutral-200' : 'bg-gradient-to-br from-primary-50 to-secondary-50'}`}>
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-72 ${darkMode ? 'bg-neutral-800 border-r border-neutral-700' : 'bg-white/90 backdrop-blur-md'} shadow-xl transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out md:relative md:translate-x-0`}
+        className={`fixed inset-y-0 left-0 z-50 w-72 ${darkMode ? 'bg-neutral-800 border-r border-neutral-700' : 'bg-white/90 backdrop-blur-md'} shadow-xl transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out md:relative md:translate-x-0 flex flex-col`}
       >
         <div className={`flex items-center justify-between h-20 px-6 ${darkMode ? 'bg-gradient-to-r from-primary-900 to-accent-900' : 'bg-gradient-to-r from-primary-600 to-accent-500'} text-white`}>
           <div className="flex items-center">
@@ -147,8 +178,8 @@ const ReaderLayout: React.FC = () => {
           </button>
         </div>
 
-        <nav className="px-4 py-6">
-          <ul className="space-y-3">
+        <nav className="px-4 py-6 flex-1 overflow-hidden flex flex-col">
+          <ul className="space-y-3 overflow-y-auto flex-1 pb-6 sidebar-nav">
             <li>
               <Link
                 to="/"
