@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
-import { Menu, ChevronLeft, ChevronRight, Home, Sparkles, BookMarked, Settings } from 'lucide-react';
+import { Menu, ChevronLeft, ChevronRight, Home, Sparkles, Settings } from 'lucide-react';
 import { db } from '../services/db';
 
 // Определяем тип Module локально
@@ -194,12 +194,7 @@ const ReaderLayout: React.FC = () => {
                         ? 'text-neutral-300 hover:bg-neutral-800' 
                         : 'text-neutral-700 hover:bg-neutral-100'}`}
                   >
-                    <BookMarked
-                      className={`mr-3 ${location.pathname === `/module/${module.id}` 
-                        ? darkMode ? 'text-primary-400' : 'text-primary-600' 
-                        : darkMode ? 'text-neutral-400' : 'text-neutral-500'}`}
-                      size={20}
-                    />
+                    {/* Иконка удалена для улучшения читаемости текста */}
                     <span className="font-medium">{module.title}</span>
                   </Link>
                 </li>
