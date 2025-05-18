@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Loader, ZoomIn, ZoomOut, RotateCw, ExternalL
 import { createPdfObjectUrl, openPdfInNewTab } from '../../services/pdfUtils';
 import * as pdfjsLib from 'pdfjs-dist';
 import { useWindowDimensions } from '../../hooks/useWindowDimensions';
+import MobilePdfViewer from './MobilePdfViewer';
 
 // Динамический импорт PDF.js worker
 if (typeof window !== 'undefined') {
@@ -27,6 +28,7 @@ const EnhancedPdfViewer = ({ pdfAttachment }: EnhancedPdfViewerProps) => {
   const [isMobileView, setIsMobileView] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [dragPosition, setDragPosition] = useState({ x: 0, y: 0 });
+  const [showMobilePdfViewer, setShowMobilePdfViewer] = useState(false);
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pdfDocRef = useRef<pdfjsLib.PDFDocumentProxy | null>(null);
@@ -210,11 +212,33 @@ const EnhancedPdfViewer = ({ pdfAttachment }: EnhancedPdfViewerProps) => {
   
   // Функция для открытия PDF в новой вкладке без возможности скачивания
   const handleOpenInNewTab = () => {
-    openPdfInNewTab(pdfAttachment.data, pdfAttachment.name);
+    // Определяем, является ли устройство мобильным
+    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobileDevice) {
+      // На мобильных устройствах открываем встроенный просмотрщик
+      setShowMobilePdfViewer(true);
+    } else {
+      // На десктопных устройствах открываем в новой вкладке
+      openPdfInNewTab(pdfAttachment.data, pdfAttachment.name);
+    }
+  };
+  
+  // Функция для закрытия мобильного просмотрщика
+  const handleCloseMobileViewer = () => {
+    setShowMobilePdfViewer(false);
   };
 
   return (
     <div className="relative bg-neutral-100 dark:bg-neutral-900 rounded-xl overflow-hidden shadow-xl transition-all duration-300">
+      {/* Мобильный просмотрщик PDF */}
+      {showMobilePdfViewer && (
+        <MobilePdfViewer 
+          pdfData={pdfAttachment.data}
+          fileName={pdfAttachment.name}
+          onClose={handleCloseMobileViewer}
+        />
+      )}
       {/* PDF Viewer */}
       <div className="relative flex flex-col items-center justify-center min-h-[500px]">
         {isLoading && (

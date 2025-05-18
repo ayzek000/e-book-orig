@@ -81,7 +81,169 @@ export const openPdfInNewTab = (base64: string, fileName: string = 'document.pdf
   // Определяем, является ли устройство мобильным
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   
-  // Открываем новую вкладку
+  // Для мобильных устройств создаем специальный просмотрщик
+  if (isMobile) {
+    // Открываем новую вкладку с мобильным просмотрщиком
+    const newTab = window.open('', '_blank');
+    
+    if (!newTab) {
+      alert('Пожалуйста, разрешите всплывающие окна для этого сайта');
+      return;
+    }
+    
+    // Создаем HTML с PDF.js для мобильных устройств
+    const mobileViewerHtml = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>${fileName}</title>
+        <style>
+          body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-color: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+          }
+          .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+          }
+          .header {
+            background: linear-gradient(to right, #4f46e5, #7c3aed);
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+          }
+          .header h1 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 70%;
+          }
+          .close-btn {
+            background-color: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            min-width: 70px;
+            min-height: 32px;
+          }
+          .content {
+            flex: 1;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          }
+          .pdf-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          }
+          .fallback {
+            text-align: center;
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+          }
+          .fallback h2 {
+            margin-top: 0;
+            color: #333;
+          }
+          .fallback p {
+            margin-bottom: 20px;
+            color: #666;
+          }
+          .download-btn {
+            display: inline-block;
+            background-color: #4f46e5;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>${fileName}</h1>
+            <button class="close-btn" onclick="window.close()">Закрыть</button>
+          </div>
+          <div class="content">
+            <iframe src="${blobUrl}" class="pdf-frame" title="${fileName}" sandbox="allow-same-origin allow-scripts"></iframe>
+            <div class="fallback" style="display: none;" id="fallback">
+              <h2>Не удалось отобразить PDF</h2>
+              <p>Ваш браузер не может отобразить этот PDF-документ напрямую.</p>
+              <a href="${blobUrl}" download="${fileName}" class="download-btn">Скачать PDF</a>
+            </div>
+          </div>
+        </div>
+        <script>
+          // Проверяем загрузку PDF в iframe
+          window.addEventListener('load', function() {
+            const iframe = document.querySelector('.pdf-frame');
+            const fallback = document.getElementById('fallback');
+            
+            // Проверяем, загрузился ли PDF
+            setTimeout(function() {
+              try {
+                // Пытаемся получить доступ к содержимому iframe
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                
+                // Если содержимое пустое или содержит ошибку, показываем запасной вариант
+                if (iframeDoc.body.innerHTML.includes('error') || iframeDoc.body.innerHTML === '') {
+                  iframe.style.display = 'none';
+                  fallback.style.display = 'block';
+                }
+              } catch (e) {
+                // Если не можем получить доступ к содержимому iframe, показываем запасной вариант
+                console.error('Error checking PDF loading:', e);
+              }
+            }, 2000); // Даем 2 секунды на загрузку
+          });
+        </script>
+      </body>
+      </html>
+    `;
+    
+    // Записываем HTML в новую вкладку
+    newTab.document.write(mobileViewerHtml);
+    newTab.document.close();
+    
+    // Освобождаем URL объект при закрытии вкладки
+    newTab.addEventListener('beforeunload', () => {
+      URL.revokeObjectURL(blobUrl);
+    });
+    
+    return;
+  }
+  
+  // Для десктопных устройств открываем новую вкладку
   const newTab = window.open('', '_blank');
   
   if (!newTab) {
